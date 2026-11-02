@@ -1,0 +1,248 @@
+<!doctype html>
+<html lang="ms">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Buku Aturcara Hari Keluarga SK Lotong 2026</title>
+<meta name="description" content="Buku aturcara digital Program Hari Keluarga SK Lotong, Tambunan. Jumaat 13 & Isnin 16 November 2026.">
+<meta property="og:title" content="Buku Aturcara Hari Keluarga SK Lotong 2026">
+<meta property="og:description" content="Keluarga SK Lotong, Satu Hati, Satu Semangat · 13 & 16 November 2026">
+<meta property="og:image" content="kulit-kongsi.jpg">
+<meta name="theme-color" content="#0B7F77">
+<link rel="icon" href="ikon.png">
+<link rel="preload" as="image" href="halaman/ms01.webp">
+<style>
+  @font-face { font-family: "Butterpop"; src: url("fon/Butterpop-Regular.woff") format("woff"); font-display: swap; }
+  @font-face { font-family: "Quicksand"; src: url("fon/Quicksand-Regular.woff") format("woff"); font-weight: 400; font-display: swap; }
+  @font-face { font-family: "Quicksand"; src: url("fon/Quicksand-Bold.woff") format("woff"); font-weight: 700; font-display: swap; }
+
+  :root {
+    --biru-tua: #0E245E; --teal: #0DB3A6; --teal-tua: #0B7F77; --kuning: #FCB62A; --koral: #FA5242; --krim: #FFF8EA;
+    --hari: var(--teal-tua);
+    --palang: 56px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; }
+  body { font-family: "Quicksand", system-ui, sans-serif; color: var(--biru-tua); overflow: hidden;
+         background: radial-gradient(120% 80% at 50% 0%, #d8f1fb 0%, #fdf3dc 55%, #f7e2b8 100%);
+         -webkit-tap-highlight-color: transparent; }
+  body::before { content: ""; position: fixed; inset: 0; pointer-events: none; opacity: .5;
+         background: repeating-conic-gradient(from 0deg at 50% 0%, rgba(252,182,42,.10) 0 5deg, transparent 5deg 12deg); }
+
+  /* ---- palang atas ---- */
+  header { position: fixed; inset: 0 0 auto 0; height: calc(var(--palang) + env(safe-area-inset-top)); padding: env(safe-area-inset-top) 12px 0;
+           display: flex; align-items: center; gap: 10px; z-index: 5; }
+  header img { width: 34px; height: 34px; border-radius: 50%; background: #fff; padding: 2px; box-shadow: 0 2px 6px rgba(14,36,94,.18); }
+  header h1 { font: 400 18px/1 "Butterpop", "Quicksand", sans-serif; color: var(--biru-tua); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  header h1 small { display: block; margin-top: 3px; font: 700 11px/1 "Quicksand", sans-serif; letter-spacing: .08em; color: var(--teal-tua); }
+  .cip-hari { margin-left: auto; flex: none; padding: 6px 12px; border-radius: 99px; background: var(--hari); color: #fff;
+              font: 700 12px/1.1 "Quicksand", sans-serif; box-shadow: 0 3px 0 rgba(0,0,0,.15); transition: background .4s, transform .4s, opacity .3s; }
+  .cip-hari[hidden] { display: block; opacity: 0; transform: translateY(-6px); pointer-events: none; }
+
+  /* ---- pentas buku ---- */
+  main { position: fixed; left: 0; right: 0; top: calc(var(--palang) + env(safe-area-inset-top)); bottom: calc(68px + env(safe-area-inset-bottom));
+         display: grid; place-items: center; padding: 6px 12px; }
+  #buku { width: var(--bw, 90vw); height: var(--bh, 70vh); }
+  .halaman { background: #fff; overflow: hidden; }
+  .halaman img { width: 100%; height: 100%; display: block; object-fit: cover; user-select: none; -webkit-user-drag: none; }
+  .stf__item { box-shadow: 0 6px 24px rgba(14,36,94,.18); }
+
+  /* ---- palang bawah ---- */
+  nav { position: fixed; inset: auto 0 0 0; height: calc(68px + env(safe-area-inset-bottom)); padding: 0 10px env(safe-area-inset-bottom);
+        display: flex; align-items: center; justify-content: center; gap: 8px; z-index: 5; }
+  button { font: inherit; border: 0; cursor: pointer; color: inherit; background: none; }
+  .btn { width: 46px; height: 46px; border-radius: 50%; background: #fff; display: grid; place-items: center;
+         box-shadow: 0 3px 0 rgba(14,36,94,.12), 0 0 0 2px rgba(11,127,119,.18); transition: transform .15s, background .2s; }
+  .btn:active { transform: scale(.92); }
+  .btn.utama { background: var(--teal-tua); color: #fff; box-shadow: 0 3px 0 #075a54; }
+  .btn:disabled { opacity: .35; cursor: default; }
+  .btn svg { width: 22px; height: 22px; }
+  .kiraan { min-width: 74px; text-align: center; font: 700 14px/1 "Quicksand", sans-serif; }
+  .kiraan b { font-size: 18px; }
+  .btn:focus-visible, .senarai button:focus-visible { outline: 3px solid var(--kuning); outline-offset: 2px; }
+
+  /* ---- laci kandungan ---- */
+  .lapis { position: fixed; inset: 0; z-index: 10; background: rgba(14,36,94,.45); opacity: 0; pointer-events: none; transition: opacity .25s; }
+  .lapis.buka { opacity: 1; pointer-events: auto; }
+  .laci { position: fixed; z-index: 11; left: 50%; bottom: 0; width: min(440px, 100%); max-height: 82svh; overflow: auto;
+          transform: translate(-50%, 105%); transition: transform .3s cubic-bezier(.2,.8,.2,1);
+          background: var(--krim); border-radius: 22px 22px 0 0; padding: 14px 16px calc(18px + env(safe-area-inset-bottom)); box-shadow: 0 -8px 30px rgba(14,36,94,.25); }
+  .laci.buka { transform: translate(-50%, 0); }
+  .laci .pemegang { width: 44px; height: 5px; border-radius: 9px; background: #e3cfa6; margin: 0 auto 12px; }
+  .laci h2 { font: 400 20px/1 "Butterpop", sans-serif; color: var(--teal-tua); margin-bottom: 10px; }
+  .senarai { list-style: none; display: grid; gap: 6px; }
+  .senarai button { width: 100%; display: flex; align-items: center; gap: 12px; padding: 9px 12px; border-radius: 14px; background: #fff; text-align: left;
+                    box-shadow: 0 0 0 1.5px #f1dcb0; font: 700 14px/1.25 "Quicksand", sans-serif; }
+  .senarai button.aktif { box-shadow: 0 0 0 2px var(--teal); background: #effaf8; }
+  .senarai .no { flex: none; width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; background: var(--kuning); font-size: 12px; }
+  .senarai .hari { margin-left: auto; flex: none; padding: 3px 8px; border-radius: 99px; color: #fff; font-size: 11px; }
+
+  /* ---- zum ---- */
+  .zum { position: fixed; inset: 0; z-index: 20; background: #1b1f33; display: none; flex-direction: column; }
+  .zum.buka { display: flex; }
+  .zum .bar { display: flex; align-items: center; gap: 8px; padding: calc(8px + env(safe-area-inset-top)) 10px 8px; color: #fff; }
+  .zum .bar span { margin-right: auto; font-weight: 700; font-size: 14px; }
+  .zum .bar .btn { width: 40px; height: 40px; background: rgba(255,255,255,.12); color: #fff; box-shadow: none; }
+  .zum .kanvas { flex: 1; overflow: auto; -webkit-overflow-scrolling: touch; touch-action: pan-x pan-y pinch-zoom; }
+  .zum .kanvas img { display: block; margin: 0 auto; width: var(--z, 100%); max-width: none; transition: width .2s; }
+
+  /* tiada JS */
+  .tanpa-js { position: fixed; inset: 0; overflow: auto; padding: 16px; background: var(--krim); z-index: 30; }
+  .tanpa-js img { display: block; width: min(600px, 100%); margin: 0 auto 16px; box-shadow: 0 4px 16px rgba(0,0,0,.15); }
+
+  @media (max-width: 420px) { header h1 { font-size: 15px; } header h1 small { font-size: 10px; } .cip-hari { font-size: 11px; padding: 5px 9px; } nav { gap: 5px; } }
+  @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+</head>
+<body>
+<header>
+  <img src="ikon.png" alt="">
+  <h1>Hari Keluarga<small>SK LOTONG, TAMBUNAN · 2026</small></h1>
+  <div class="cip-hari" id="cipHari" hidden></div>
+</header>
+
+<main><div id="buku" aria-label="Buku aturcara (selak halaman)"></div></main>
+
+<nav aria-label="Navigasi buku">
+  <button class="btn" id="btnKandungan" aria-label="Kandungan"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h10"/></svg></button>
+  <button class="btn utama" id="btnSebelum" aria-label="Halaman sebelumnya"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></button>
+  <div class="kiraan" id="kiraan" aria-live="polite"><b>1</b> / 16</div>
+  <button class="btn utama" id="btnSeterus" aria-label="Halaman seterusnya"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg></button>
+  <button class="btn" id="btnZum" aria-label="Zum halaman"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5M11 8v6M8 11h6"/></svg></button>
+</nav>
+
+<div class="lapis" id="lapis"></div>
+<section class="laci" id="laci" aria-label="Kandungan" aria-hidden="true">
+  <div class="pemegang"></div>
+  <h2>Kandungan</h2>
+  <ol class="senarai" id="senarai"></ol>
+</section>
+
+<section class="zum" id="zum" aria-label="Paparan zum">
+  <div class="bar">
+    <span id="zumTajuk">Halaman</span>
+    <button class="btn" id="zumKecil" aria-label="Kecilkan">−</button>
+    <button class="btn" id="zumBesar" aria-label="Besarkan">+</button>
+    <button class="btn" id="zumTutup" aria-label="Tutup zum">✕</button>
+  </div>
+  <div class="kanvas" id="kanvas"></div>
+</section>
+
+<noscript><div class="tanpa-js">
+  <img src="halaman/ms01.webp" alt="Ms 1"><img src="halaman/ms02.webp" alt="Ms 2"><img src="halaman/ms03.webp" alt="Ms 3"><img src="halaman/ms04.webp" alt="Ms 4">
+  <img src="halaman/ms05.webp" alt="Ms 5"><img src="halaman/ms06.webp" alt="Ms 6"><img src="halaman/ms07.webp" alt="Ms 7"><img src="halaman/ms08.webp" alt="Ms 8">
+  <img src="halaman/ms09.webp" alt="Ms 9"><img src="halaman/ms10.webp" alt="Ms 10"><img src="halaman/ms11.webp" alt="Ms 11"><img src="halaman/ms12.webp" alt="Ms 12">
+  <img src="halaman/ms13.webp" alt="Ms 13"><img src="halaman/ms14.webp" alt="Ms 14"><img src="halaman/ms15.webp" alt="Ms 15"><img src="halaman/ms16.webp" alt="Ms 16">
+</div></noscript>
+
+<script src="lib/page-flip.browser.js"></script>
+<script>
+(() => {
+  const NISBAH = 210 / 148;
+  const HALAMAN = [
+    'Kulit hadapan', 'Maklumat Program', 'Perutusan Guru Besar', 'Perutusan PPD Tambunan', 'Ucapan Perasmian',
+    'Hari Sukaneka', 'Aturcara Majlis', 'Sukaneka & Sukan', 'Aktiviti Isnin', 'Pameran & Agensi · Penghargaan',
+    'Profil SK Lotong', 'Jawatankuasa Induk', 'Jawatankuasa Pelaksana (1)', 'Jawatankuasa Pelaksana (2)', 'Catatan', 'Terima Kasih'];
+  const HARI = { 6: ['Jumaat 13 Nov · Sukaneka', '#0B7F77'], 7: ['Isnin 16 Nov · Majlis', '#E2463A'], 8: ['Jumaat 13 Nov · Sukaneka', '#0B7F77'], 9: ['Isnin 16 Nov · Aktiviti', '#E2463A'], 10: ['Isnin 16 Nov · Pameran', '#E2463A'] };
+  const N = HALAMAN.length, $ = id => document.getElementById(id);
+  const src = i => `halaman/ms${String(i + 1).padStart(2, '0')}.webp`;
+
+  // Mod: satu halaman (telefon/potret) atau dua halaman (skrin lebar)
+  const potret = () => innerWidth < 760 || innerHeight > innerWidth * 1.05;
+  let modPotret = potret();
+  function ukur() {
+    const m = $('buku').parentElement, aw = m.clientWidth - 24, ah = m.clientHeight - 12;
+    let w = modPotret ? Math.min(aw, ah / NISBAH) : Math.min(aw / 2, ah / NISBAH);
+    w = Math.max(220, Math.floor(w));
+    document.documentElement.style.setProperty('--bw', (modPotret ? w : w * 2) + 'px');
+    document.documentElement.style.setProperty('--bh', Math.floor(w * NISBAH) + 'px');
+    return w;
+  }
+
+  // Bina halaman: 3 pertama dimuat terus, selebihnya dimuat berperingkat (sesuai internet lemah)
+  const buku = $('buku');
+  const awal = Math.min(N, Math.max(1, parseInt((location.hash.match(/ms=(\d+)/) || [])[1] || '1', 10))) - 1;
+  const segera = i => i < 3 || Math.abs(i - awal) <= 2;
+  HALAMAN.forEach((t, i) => {
+    const d = document.createElement('div'); d.className = 'halaman';
+    if (i === 0 || i === N - 1) d.dataset.density = 'hard';
+    const img = new Image(); img.alt = `Ms ${i + 1}: ${t}`; img.decoding = 'async'; img.draggable = false;
+    if (segera(i)) img.src = src(i); else img.dataset.src = src(i);
+    d.append(img); buku.append(d);
+  });
+  const muatBaki = () => [...buku.querySelectorAll('img[data-src]')].reduce((p, img) => p.then(() => new Promise(ok => {
+    img.onload = img.onerror = ok; img.src = img.dataset.src; img.removeAttribute('data-src'); })), Promise.resolve());
+
+  const w = ukur();
+  const pf = new St.PageFlip(buku, {
+    width: 600, height: Math.round(600 * NISBAH), size: 'stretch', minWidth: modPotret ? Math.ceil(w / 2) + 20 : 200, maxWidth: 1400, minHeight: modPotret ? Math.round((Math.ceil(w / 2) + 20) * NISBAH) : 284, maxHeight: 1988,
+    showCover: true, usePortrait: modPotret, autoSize: false, drawShadow: true, maxShadowOpacity: .45,
+    flippingTime: 650, mobileScrollSupport: false, startPage: awal, showPageCorners: true
+  });
+  pf.loadFromHTML(buku.querySelectorAll('.halaman'));
+  if ('requestIdleCallback' in window) requestIdleCallback(muatBaki, { timeout: 2000 }); else setTimeout(muatBaki, 400);
+
+  // Kemas kini UI mengikut halaman
+  function semasa() { return pf.getCurrentPageIndex(); }
+  function halamanNampak() {
+    const i = semasa();
+    if (pf.getOrientation() === 'portrait' || i === 0 || i === N - 1) return [i];
+    const kiri = i % 2 === 1 ? i : i - 1; return [kiri, kiri + 1].filter(x => x >= 0 && x < N);
+  }
+  function kemasUI() {
+    const nampak = halamanNampak(), no = nampak.map(x => x + 1);
+    $('kiraan').innerHTML = `<b>${no.join('–')}</b> / ${N}`;
+    $('btnSebelum').disabled = nampak[0] === 0;
+    $('btnSeterus').disabled = nampak[nampak.length - 1] === N - 1;
+    const hs = [...new Set(no.map(x => HARI[x] && HARI[x][0].split(' · ')[0]).filter(Boolean))], cip = $('cipHari');
+    const h = hs.length > 1 ? ['Jumaat 13 & Isnin 16 Nov', '#1F4FA3'] : no.map(x => HARI[x]).find(Boolean);
+    if (h) { cip.textContent = h[0]; cip.style.setProperty('--hari', h[1]); cip.style.background = h[1]; cip.hidden = false; } else cip.hidden = true;
+    document.querySelectorAll('.senarai button').forEach((b, k) => b.classList.toggle('aktif', no.includes(k + 1)));
+    history.replaceState(null, '', '#ms=' + no[0]);
+  }
+  pf.on('init', kemasUI); pf.on('flip', kemasUI); pf.on('changeOrientation', kemasUI); setTimeout(kemasUI, 50);
+
+  $('btnSebelum').onclick = () => pf.flipPrev('top');
+  $('btnSeterus').onclick = () => pf.flipNext('top');
+  addEventListener('keydown', e => {
+    if ($('zum').classList.contains('buka')) { if (e.key === 'Escape') tutupZum(); return; }
+    if (e.key === 'ArrowRight' || e.key === 'PageDown') pf.flipNext();
+    if (e.key === 'ArrowLeft' || e.key === 'PageUp') pf.flipPrev();
+    if (e.key === 'Escape') tutupLaci();
+  });
+
+  // Kandungan
+  HALAMAN.forEach((t, i) => {
+    const li = document.createElement('li'), b = document.createElement('button'), h = HARI[i + 1];
+    b.innerHTML = `<span class="no">${i + 1}</span><span>${t}</span>` + (h && (i === 5 || i === 6) ? `<span class="hari" style="background:${h[1]}">${h[0].split(' · ')[0]}</span>` : '');
+    b.onclick = () => { tutupLaci(); pf.flip(i, 'top'); };
+    li.append(b); $('senarai').append(li);
+  });
+  const bukaLaci = () => { $('laci').classList.add('buka'); $('lapis').classList.add('buka'); $('laci').setAttribute('aria-hidden', 'false'); };
+  const tutupLaci = () => { $('laci').classList.remove('buka'); $('lapis').classList.remove('buka'); $('laci').setAttribute('aria-hidden', 'true'); };
+  $('btnKandungan').onclick = bukaLaci; $('lapis').onclick = tutupLaci;
+
+  // Zum: paparan penuh, boleh cubit (pinch) di telefon atau butang +/−
+  let z = 100;
+  const setZ = v => { z = Math.min(400, Math.max(100, v)); $('kanvas').style.setProperty('--z', z + '%'); };
+  function bukaZum() {
+    const nampak = halamanNampak(), k = $('kanvas'); k.innerHTML = '';
+    nampak.forEach(i => { const im = new Image(); im.src = src(i); im.alt = `Ms ${i + 1}`; k.append(im); });
+    $('zumTajuk').textContent = nampak.map(i => 'Ms ' + (i + 1)).join(' & ');
+    setZ(innerWidth > 900 ? 60 : 100); $('zum').classList.add('buka');
+  }
+  function tutupZum() { $('zum').classList.remove('buka'); }
+  $('btnZum').onclick = bukaZum; $('zumTutup').onclick = tutupZum;
+  $('zumBesar').onclick = () => setZ(z + 50); $('zumKecil').onclick = () => setZ(z - 50);
+  $('kanvas').ondblclick = () => setZ(z >= 200 ? 100 : 200);
+
+  // Tukar orientasi: bina semula pada halaman yang sama
+  let tunda;
+  addEventListener('resize', () => { clearTimeout(tunda); tunda = setTimeout(() => {
+    if (potret() !== modPotret) { location.hash = 'ms=' + (semasa() + 1); location.reload(); }
+    else { ukur(); pf.update(); }
+  }, 250); });
+})();
+</script>
+</body>
+</html>
