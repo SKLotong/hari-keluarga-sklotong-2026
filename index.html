@@ -140,10 +140,10 @@
 (() => {
   const NISBAH = 210 / 148;
   const HALAMAN = [
-    'Kulit hadapan', 'Maklumat Program', 'Perutusan Guru Besar', 'Perutusan PPD Tambunan', 'Ucapan Perasmian',
-    'Hari Sukaneka', 'Aturcara Majlis', 'Sukaneka & Sukan', 'Aktiviti Isnin', 'Pameran & Agensi · Penghargaan',
+    'Kulit hadapan', 'Kandungan', 'Maklumat Program', 'Perutusan Guru Besar', 'Perutusan PPD Tambunan',
+    'Ucapan Perasmian', 'Hari Sukaneka', 'Aturcara Majlis', 'Aktiviti Isnin', 'Pameran & Agensi · Penghargaan',
     'Profil SK Lotong', 'Jawatankuasa Induk', 'Jawatankuasa Pelaksana (1)', 'Jawatankuasa Pelaksana (2)', 'Catatan', 'Terima Kasih'];
-  const HARI = { 6: ['Jumaat 13 Nov · Sukaneka', '#0B7F77'], 7: ['Isnin 16 Nov · Majlis', '#E2463A'], 8: ['Jumaat 13 Nov · Sukaneka', '#0B7F77'], 9: ['Isnin 16 Nov · Aktiviti', '#E2463A'], 10: ['Isnin 16 Nov · Pameran', '#E2463A'] };
+  const HARI = { 7: ['Jumaat 13 Nov · Sukaneka', '#0B7F77'], 8: ['Isnin 16 Nov · Majlis', '#E2463A'], 9: ['Isnin 16 Nov · Aktiviti', '#E2463A'], 10: ['Isnin 16 Nov · Pameran', '#E2463A'] };
   const N = HALAMAN.length, $ = id => document.getElementById(id);
   const src = i => `halaman/ms${String(i + 1).padStart(2, '0')}.webp`;
 
@@ -214,7 +214,7 @@
   // Kandungan
   HALAMAN.forEach((t, i) => {
     const li = document.createElement('li'), b = document.createElement('button'), h = HARI[i + 1];
-    b.innerHTML = `<span class="no">${i + 1}</span><span>${t}</span>` + (h && (i === 5 || i === 6) ? `<span class="hari" style="background:${h[1]}">${h[0].split(' · ')[0]}</span>` : '');
+    b.innerHTML = `<span class="no">${i + 1}</span><span>${t}</span>` + (h && (i === 6 || i === 7) ? `<span class="hari" style="background:${h[1]}">${h[0].split(' · ')[0]}</span>` : '');
     b.onclick = () => { tutupLaci(); pf.flip(i, 'top'); };
     li.append(b); $('senarai').append(li);
   });
