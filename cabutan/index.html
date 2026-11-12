@@ -1,0 +1,306 @@
+<!doctype html>
+<html lang="ms">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cabutan Nama Bertuah · Hari Keluarga SK Lotong 2026</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="logo.png">
+<style>
+  @font-face { font-family: "Butterpop"; src: url("../fon/Butterpop-Regular.woff") format("woff"); font-display: swap; }
+  @font-face { font-family: "Quicksand"; src: url("../fon/Quicksand-Regular.woff") format("woff"); font-weight: 400; font-display: swap; }
+  @font-face { font-family: "Quicksand"; src: url("../fon/Quicksand-Bold.woff") format("woff"); font-weight: 700; font-display: swap; }
+  :root {
+    --biru-tua: #0E245E; --teal: #0DB3A6; --teal-tua: #0B7F77; --kuning: #FCB62A; --kuning-cerah: #FFE08A;
+    --merah: #D7262B; --koral: #FA5242; --krim: #FFF8EA; --dakwat: #1D2340; --kelabu: #5B6078;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; }
+  body { font-family: "Quicksand", system-ui, sans-serif; color: var(--dakwat); overflow: hidden;
+         background: radial-gradient(ellipse at 50% 40%, #fffdf6 0%, #fff3d6 55%, #fde3b0 100%); }
+  button { font: inherit; cursor: pointer; }
+
+  .hias { position: fixed; pointer-events: none; z-index: 0; }
+  .bunting { top: -3vh; left: 50%; transform: translateX(-50%); height: 14vh; width: auto; max-width: 96vw; object-fit: cover; opacity: .95; }
+  .bunga-kiri { left: -3vw; bottom: -9vh; width: min(220px, 17vw); transform: scaleY(-1); opacity: .9; }
+  .bunga-kanan { right: -3vw; bottom: -9vh; width: min(220px, 17vw); opacity: .9; }
+
+  .susun { position: relative; z-index: 1; height: 100%; display: grid; grid-template-columns: 1fr minmax(260px, 24vw);
+           grid-template-rows: auto 1fr auto; gap: 1.6vh 2vw; padding: 12vh 3vw 2.4vh; }
+  header { grid-column: 1 / -1; display: flex; align-items: center; justify-content: center; gap: 1.4vw; text-align: left; }
+  header img { width: clamp(48px, 6.5vh, 80px); }
+  header h1 { font: 400 clamp(26px, 5.2vh, 60px)/1 "Butterpop", sans-serif; color: var(--merah); letter-spacing: .01em; }
+  header p { margin-top: .6vh; font-weight: 700; font-size: clamp(12px, 1.9vh, 20px); color: var(--teal-tua); letter-spacing: .12em; text-transform: uppercase; }
+
+  .pentas { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3vh; min-width: 0; }
+  .kotak { position: relative; width: 100%; max-width: 1100px; min-height: 34vh; padding: 4vh 3vw; border-radius: 4vh; background: #fff;
+           border: .6vh solid var(--kuning); box-shadow: 0 1vh 0 var(--kuning), 0 3vh 6vh rgba(14,36,94,.18);
+           display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; overflow: hidden; }
+  .kotak .label { font-weight: 700; letter-spacing: .3em; font-size: clamp(12px, 2vh, 22px); color: var(--kelabu); text-transform: uppercase; }
+  .nama { margin-top: 1.4vh; font: 400 9vh/1.08 "Butterpop", sans-serif; color: var(--biru-tua); white-space: nowrap; max-width: 100%; }
+  .tempat { margin-top: 1.6vh; min-height: 1.3em; font-weight: 700; font-size: clamp(16px, 3.2vh, 36px); color: var(--teal-tua); }
+  .kotak.putar .nama { color: #8c93ad; }
+  .kotak.menang { border-color: var(--koral); box-shadow: 0 1vh 0 var(--koral), 0 3vh 8vh rgba(250,82,66,.35); animation: denyut 1.2s ease-in-out 2; }
+  .kotak.menang .nama { color: var(--merah); }
+  .kotak.menang .label { color: var(--koral); }
+  @keyframes denyut { 50% { transform: scale(1.03); } }
+
+  .butang-utama { padding: 2.2vh 6vw; border: 0; border-radius: 99px; background: var(--teal); color: #fff;
+                  font: 400 clamp(22px, 4.4vh, 48px)/1 "Butterpop", sans-serif; letter-spacing: .03em;
+                  box-shadow: 0 .9vh 0 var(--teal-tua), 0 2vh 4vh rgba(11,127,119,.35); transition: transform .1s; }
+  .butang-utama:active { transform: translateY(.6vh); box-shadow: 0 .3vh 0 var(--teal-tua); }
+  .butang-utama:disabled { background: #9fb9b6; box-shadow: 0 .9vh 0 #7d9894; cursor: default; }
+  .tidak-hadir { border: .3vh solid var(--koral); background: #fff; color: var(--merah); border-radius: 99px;
+                 padding: 1vh 2.2vw; font-weight: 700; font-size: clamp(12px, 1.9vh, 20px); visibility: hidden; }
+  .tidak-hadir.nampak { visibility: visible; }
+  .petunjuk { font-size: clamp(11px, 1.6vh, 16px); color: var(--kelabu); font-weight: 700; }
+
+  aside { grid-row: 2; grid-column: 2; display: flex; flex-direction: column; min-height: 0; background: rgba(255,255,255,.88);
+          border-radius: 3vh; border: .4vh solid var(--teal); box-shadow: 0 .8vh 0 var(--teal); overflow: hidden; }
+  aside h2 { padding: 1.6vh 1.4vw; background: var(--teal); color: #fff; font: 400 clamp(18px, 3vh, 32px)/1 "Butterpop", sans-serif; display: flex; justify-content: space-between; align-items: center; }
+  aside h2 span { font: 700 clamp(13px, 2vh, 22px)/1 "Quicksand", sans-serif; background: rgba(255,255,255,.25); padding: .6vh 1vw; border-radius: 99px; }
+  #senarai { list-style: none; overflow-y: auto; flex: 1; padding: 1vh .8vw 1.4vh; counter-reset: p; }
+  #senarai li { counter-increment: p; display: grid; grid-template-columns: 3.6vh 1fr; gap: .8vw; align-items: start; padding: 1vh .4vw; border-bottom: .2vh dashed #e8dcc0; }
+  #senarai li::before { content: counter(p); width: 3.6vh; height: 3.6vh; border-radius: 50%; background: var(--kuning); color: var(--biru-tua);
+                        display: grid; place-items: center; font: 700 clamp(11px, 1.7vh, 18px)/1 "Quicksand", sans-serif; }
+  #senarai b { display: block; font-size: clamp(12px, 2vh, 21px); color: var(--biru-tua); line-height: 1.2; word-break: break-word; }
+  #senarai small { display: block; margin-top: .3vh; font-size: clamp(10px, 1.55vh, 16px); font-weight: 700; color: var(--teal-tua); }
+  #senarai li.batal::before { content: "✕"; background: #eee; color: var(--kelabu); }
+  #senarai li.batal { counter-increment: none; }
+  #senarai li.batal b { text-decoration: line-through; color: var(--kelabu); }
+  #senarai li.batal small::after { content: " · tiada di dewan"; color: var(--koral); }
+  #senarai .kosong { display: block; padding: 2vh 1vw; color: var(--kelabu); font-weight: 700; font-size: clamp(12px, 1.8vh, 18px); }
+  #senarai .kosong::before { display: none; }
+
+  footer { position: relative; z-index: 2; grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: 1vh 1vw; align-items: center; justify-content: space-between;
+           font-weight: 700; font-size: clamp(11px, 1.7vh, 17px); color: var(--kelabu); }
+  footer .kiraan { background: rgba(255,255,255,.85); padding: .8vh 1.4vw; border-radius: 99px; }
+  footer .kiraan b { color: var(--biru-tua); font-size: 1.25em; }
+  footer .alat { display: flex; flex-wrap: wrap; gap: .8vw; }
+  footer .alat button, footer .alat label { border: .2vh solid #d9c9a4; background: rgba(255,255,255,.8); color: var(--dakwat); border-radius: 99px;
+                         padding: .8vh 1.2vw; font-weight: 700; font-size: inherit; cursor: pointer; }
+  footer .alat input { display: none; }
+  #status.ralat { color: var(--merah); }
+
+  canvas#konfeti { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 5; }
+
+  @media (max-aspect-ratio: 1/1) {
+    body { overflow: auto; }
+    .susun { grid-template-columns: 1fr; grid-template-rows: auto auto auto auto; height: auto; min-height: 100%; padding-top: 7vh; }
+    aside { grid-row: auto; grid-column: 1; max-height: 50vh; }
+    .nama { font-size: 6vh; }
+  }
+</style>
+</head>
+<body>
+<img class="hias bunting" src="bunting.webp" alt="">
+<img class="hias bunga-kiri" src="bunga_kiri.webp" alt="">
+<img class="hias bunga-kanan" src="bunga_kanan.webp" alt="">
+<canvas id="konfeti"></canvas>
+
+<div class="susun">
+  <header>
+    <img src="logo.png" alt="Logo SK Lotong">
+    <div><h1>Cabutan Nama Bertuah</h1><p>Hari Keluarga SK Lotong · Isnin, 16 November 2026</p></div>
+  </header>
+
+  <main class="pentas">
+    <div class="kotak" id="kotak">
+      <div class="label" id="label">Sedia untuk cabutan</div>
+      <div class="nama" id="nama">Semoga anda bertuah!</div>
+      <div class="tempat" id="tempat"></div>
+    </div>
+    <button class="butang-utama" id="cabut" disabled>Cabut Nama</button>
+    <button class="tidak-hadir" id="tidakHadir" title="Tandakan pemenang terakhir tiada di dewan, kemudian cabut semula">Tiada di dewan? Cabut semula</button>
+    <p class="petunjuk">Tekan <b>Space</b> atau <b>Enter</b> untuk cabut · <b>F</b> untuk skrin penuh</p>
+  </main>
+
+  <aside>
+    <h2>Pemenang <span id="bilMenang">0</span></h2>
+    <ol id="senarai"><li class="kosong">Belum ada pemenang.</li></ol>
+  </aside>
+
+  <footer>
+    <div class="kiraan">Peserta: <b id="bilPeserta">0</b> · Baki dalam cabutan: <b id="bilBaki">0</b> · <span id="status">Memuatkan senarai…</span></div>
+    <div class="alat">
+      <button id="muatSemula" title="Ambil senarai terkini daripada Google Sheet">↻ Muat semula senarai</button>
+      <label title="Guna fail CSV (Nama, Tempat) jika internet terputus">⇪ Muat naik CSV<input type="file" id="failCsv" accept=".csv,text/csv"></label>
+      <button id="bunyi" title="Hidup/matikan bunyi">🔊 Bunyi</button>
+      <button id="skrinPenuh">⛶ Skrin penuh</button>
+      <button id="setSemula" title="Kosongkan senarai pemenang">Set semula</button>
+    </div>
+  </footer>
+</div>
+
+<script>
+/* ===== Tetapan =====
+   CSV_URL: pautan "Publish to web" (CSV) bagi tab "Cabutan" sahaja (lajur A = NAMA, B = TEMPAT).
+   Boleh juga diberi melalui ?csv=<pautan>. ?demo=1 untuk nama contoh (latihan). */
+const CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQl1aX4ZyK5__h5B4o1FBZMeWOWwkO5znmmisufD385Ec7DvyBl-mbLu_PGWP5B3eVCl4l8mS5c7iUs/pub?gid=1893845792&single=true&output=csv';
+const KUNCI = 'cabutan-hk-sklotong-2026';
+
+const $ = (id) => document.getElementById(id);
+const param = new URLSearchParams(location.search);
+let peserta = [];            // [{id, nama, tempat}]
+let pemenang = [];           // [{id, nama, tempat, batal}]
+let sedangPutar = false, bunyiOn = true;
+
+try { pemenang = JSON.parse(localStorage.getItem(KUNCI) || '[]'); } catch { pemenang = []; }
+const simpan = () => { try { localStorage.setItem(KUNCI, JSON.stringify(pemenang)); } catch {} };
+
+/* ---- CSV ---- */
+function bacaCsv(teks) {
+  const baris = []; let r = [], f = '', q = false;
+  for (let i = 0; i < teks.length; i++) {
+    const c = teks[i];
+    if (q) { if (c === '"') { if (teks[i+1] === '"') { f += '"'; i++; } else q = false; } else f += c; }
+    else if (c === '"') q = true;
+    else if (c === ',') { r.push(f); f = ''; }
+    else if (c === '\n' || c === '\r') { if (c === '\r' && teks[i+1] === '\n') i++; r.push(f); baris.push(r); r = []; f = ''; }
+    else f += c;
+  }
+  if (f !== '' || r.length) { r.push(f); baris.push(r); }
+  return baris;
+}
+function bina(baris) {
+  const kira = {}; const out = [];
+  for (const b of baris) {
+    const nama = (b[0] || '').replace(/\s+/g, ' ').trim().toUpperCase();
+    const tempat = (b[1] || '').replace(/\s+/g, ' ').trim().toUpperCase();
+    if (!nama || nama === 'NAMA') continue;
+    const asas = nama + '|' + tempat; kira[asas] = (kira[asas] || 0) + 1;
+    out.push({ id: asas + '|' + kira[asas], nama, tempat });
+  }
+  return out;
+}
+const bakiPool = () => { const ambil = new Set(pemenang.map(p => p.id)); return peserta.filter(p => !ambil.has(p.id)); };
+
+function status(t, ralat) { const s = $('status'); s.textContent = t; s.classList.toggle('ralat', !!ralat); }
+function kemasKini() {
+  $('bilPeserta').textContent = peserta.length;
+  $('bilBaki').textContent = bakiPool().length;
+  $('bilMenang').textContent = pemenang.filter(p => !p.batal).length;
+  $('cabut').disabled = sedangPutar || bakiPool().length === 0;
+  const ol = $('senarai'); ol.innerHTML = '';
+  if (!pemenang.length) { ol.innerHTML = '<li class="kosong">Belum ada pemenang.</li>'; return; }
+  for (const p of pemenang) {
+    const li = document.createElement('li'); if (p.batal) li.className = 'batal';
+    const d = document.createElement('div'); const b = document.createElement('b'); const s = document.createElement('small');
+    b.textContent = p.nama; s.textContent = p.tempat || '—'; d.append(b, s); li.append(d); ol.append(li);
+  }
+  ol.scrollTop = ol.scrollHeight;
+}
+
+async function muat() {
+  const url = param.get('csv') || CSV_URL;
+  if (param.get('demo')) { peserta = bina(contoh()); status('Mod latihan: nama contoh'); kemasKini(); return; }
+  if (!url) { status('Pautan senarai belum ditetapkan. Guna "Muat naik CSV".', true); kemasKini(); return; }
+  status('Memuatkan senarai…');
+  try {
+    const res = await fetch(url + (url.includes('?') ? '&' : '?') + 't=' + Date.now(), { cache: 'no-store' });
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    peserta = bina(bacaCsv(await res.text()));
+    status('Senarai dikemas kini ' + new Date().toLocaleTimeString('ms-MY', { hour: '2-digit', minute: '2-digit' }));
+  } catch (e) {
+    status('Gagal memuatkan senarai (' + e.message + '). Semak internet atau guna "Muat naik CSV".', true);
+  }
+  kemasKini();
+}
+
+/* ---- Rawak (crypto) ---- */
+function rawak(n) { const a = new Uint32Array(1); const had = Math.floor(0x100000000 / n) * n; let x; do { crypto.getRandomValues(a); x = a[0]; } while (x >= had); return x % n; }
+
+/* ---- Paparan nama (muat dalam kotak) ---- */
+function papar(nama, tempat) {
+  const el = $('nama'); el.textContent = nama; $('tempat').textContent = tempat || '';
+  el.style.fontSize = ''; const maks = el.parentElement.clientWidth * 0.94;
+  let saiz = parseFloat(getComputedStyle(el).fontSize);
+  while (el.scrollWidth > maks && saiz > 18) { saiz -= 2; el.style.fontSize = saiz + 'px'; }
+}
+
+/* ---- Bunyi (Web Audio, tiada fail) ---- */
+let ac;
+function nada(f, t0, dur, jenis = 'triangle', vol = .18) {
+  if (!bunyiOn) return; ac = ac || new (window.AudioContext || window.webkitAudioContext)();
+  const o = ac.createOscillator(), g = ac.createGain(); o.type = jenis; o.frequency.value = f;
+  const t = ac.currentTime + t0; g.gain.setValueAtTime(vol, t); g.gain.exponentialRampToValueAtTime(.0001, t + dur);
+  o.connect(g).connect(ac.destination); o.start(t); o.stop(t + dur + .02);
+}
+const tik = () => nada(1100 + Math.random() * 300, 0, .05, 'square', .05);
+const fanfare = () => [523, 659, 784, 1047, 784, 1047].forEach((f, i) => nada(f, i * .12, i === 5 ? .7 : .2, 'triangle', .2));
+
+/* ---- Konfeti ---- */
+const cv = $('konfeti'), cx = cv.getContext('2d'); let serpih = [], animKonfeti = 0;
+function konfeti() {
+  cv.width = innerWidth * devicePixelRatio; cv.height = innerHeight * devicePixelRatio;
+  const warna = ['#FCB62A', '#FA5242', '#0DB3A6', '#1F4FA3', '#D7262B', '#FFE08A'];
+  for (let i = 0; i < 220; i++) serpih.push({ x: cv.width * (.2 + Math.random() * .6), y: cv.height * .45, vx: (Math.random() - .5) * 26 * devicePixelRatio,
+    vy: (-Math.random() * 26 - 8) * devicePixelRatio, s: (6 + Math.random() * 8) * devicePixelRatio, r: Math.random() * 6, vr: (Math.random() - .5) * .4, c: warna[i % warna.length], h: 0 });
+  if (!animKonfeti) langkah();
+}
+function langkah() {
+  cx.clearRect(0, 0, cv.width, cv.height);
+  serpih = serpih.filter(p => p.y < cv.height + 40);
+  for (const p of serpih) { p.vy += .55 * devicePixelRatio; p.vx *= .99; p.x += p.vx; p.y += p.vy; p.r += p.vr;
+    cx.save(); cx.translate(p.x, p.y); cx.rotate(p.r); cx.fillStyle = p.c; cx.fillRect(-p.s / 2, -p.s / 4, p.s, p.s / 2); cx.restore(); }
+  animKonfeti = serpih.length ? requestAnimationFrame(langkah) : 0;
+}
+
+/* ---- Cabutan ---- */
+function cabut() {
+  const pool = bakiPool(); if (sedangPutar || !pool.length) return;
+  sedangPutar = true; kemasKini(); $('tidakHadir').classList.remove('nampak');
+  const menang = pool[rawak(pool.length)];
+  const kotak = $('kotak'); kotak.classList.remove('menang'); kotak.classList.add('putar'); $('label').textContent = 'Mencabut nama…';
+  const tempoh = 5200, mula = performance.now(); let akhir = 0;
+  (function pusing(now) {
+    const t = (now - mula) / tempoh;
+    if (t >= 1) return selesai(menang);
+    const sela = 35 + 420 * t * t * t;            // makin perlahan
+    if (now - akhir >= sela) { akhir = now; const p = pool[rawak(pool.length)]; papar(p.nama, p.tempat); tik(); }
+    requestAnimationFrame(pusing);
+  })(mula);
+}
+function selesai(m) {
+  const kotak = $('kotak'); kotak.classList.remove('putar'); kotak.classList.add('menang');
+  $('label').textContent = '🎉 Tahniah! 🎉'; papar(m.nama, m.tempat);
+  pemenang.push({ id: m.id, nama: m.nama, tempat: m.tempat }); simpan();
+  fanfare(); konfeti(); sedangPutar = false; kemasKini(); $('tidakHadir').classList.add('nampak');
+}
+function tidakHadir() {
+  const akhir = [...pemenang].reverse().find(p => !p.batal); if (!akhir || sedangPutar) return;
+  akhir.batal = true; simpan(); kemasKini(); $('tidakHadir').classList.remove('nampak'); cabut();
+}
+
+/* ---- Contoh untuk latihan (?demo=1) ---- */
+function contoh() {
+  const n = ['AHMAD BIN ALI','SITI AMINAH BINTI YUSOF','JOHNNY GINDUNG','MARY ANN JOSEPH','MOHD FAIZAL BIN HASSAN','NUR AISYAH BINTI RAHMAN',
+    'BENEDICT LAJIUS','JOSEPHINE MOJIUN','ROSNAH BINTI SULAIMAN','FELIX AMBROSE','ANGELINA MARCUS SINDING','HAZWAN BIN ISMAIL',
+    'CHRISTINA JUNIUS','ZULKIFLI BIN OMAR','VERONICA PAULUS','ALEXANDER GABRIEL MOJUNTIN ANAK KUNSAI','NORAINI BINTI ABDULLAH','PETRUS SAIMIN'];
+  const t = ['KG. LOTONG','KG. BOGIAN','KG. BATU 10','KG. ROMPON','TAMBUNAN','KPDNK KENINGAU','HOSPITAL TAMBUNAN','NADI'];
+  return [['NAMA','TEMPAT'], ...n.map((x, i) => [x, t[i % t.length]])];
+}
+
+/* ---- Butang & kekunci ---- */
+$('cabut').onclick = cabut;
+$('tidakHadir').onclick = tidakHadir;
+$('muatSemula').onclick = muat;
+$('failCsv').onchange = async (e) => { const f = e.target.files[0]; if (!f) return;
+  peserta = bina(bacaCsv(await f.text())); status('Senarai daripada fail: ' + f.name); kemasKini(); e.target.value = ''; };
+$('bunyi').onclick = () => { bunyiOn = !bunyiOn; $('bunyi').textContent = bunyiOn ? '🔊 Bunyi' : '🔇 Senyap'; };
+const penuh = () => document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen?.();
+$('skrinPenuh').onclick = penuh;
+$('setSemula').onclick = () => { if (sedangPutar) return;
+  if (confirm('Kosongkan senarai pemenang? Semua nama akan kembali ke dalam cabutan.')) { pemenang = []; simpan(); kemasKini();
+    $('kotak').classList.remove('menang'); $('label').textContent = 'Sedia untuk cabutan'; papar('Semoga anda bertuah!', ''); $('tidakHadir').classList.remove('nampak'); } };
+addEventListener('keydown', (e) => {
+  if (e.target.tagName === 'INPUT') return;
+  if (e.code === 'Space' || e.code === 'Enter') { e.preventDefault(); cabut(); }
+  else if (e.key === 'f' || e.key === 'F') penuh();
+});
+addEventListener('resize', () => papar($('nama').textContent, $('tempat').textContent));
+
+kemasKini(); muat();
+</script>
+</body>
+</html>
