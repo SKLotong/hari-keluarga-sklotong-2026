@@ -1,0 +1,632 @@
+<!doctype html>
+<html lang="ms">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cabutan Nama Bertuah · Hari Keluarga SK Lotong 2026</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="logo.png">
+<style>
+  @font-face { font-family: "Butterpop"; src: url("../fon/Butterpop-Regular.woff") format("woff"); font-display: swap; }
+  @font-face { font-family: "Quicksand"; src: url("../fon/Quicksand-Regular.woff") format("woff"); font-weight: 400; font-display: swap; }
+  @font-face { font-family: "Quicksand"; src: url("../fon/Quicksand-Bold.woff") format("woff"); font-weight: 700; font-display: swap; }
+  :root {
+    --biru-tua: #0E245E; --biru: #1F4FA3; --teal: #0DB3A6; --teal-tua: #0B7F77; --kuning: #FCB62A; --kuning-cerah: #FFE08A;
+    --merah: #D7262B; --koral: #FA5242; --krim: #FFF8EA; --dakwat: #1D2340; --kelabu: #5B6078;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; }
+  body { font-family: "Quicksand", system-ui, sans-serif; color: var(--dakwat); overflow: hidden;
+         background: radial-gradient(ellipse at 40% 50%, #fffdf6 0%, #fff3d6 55%, #fde3b0 100%); }
+  button { font: inherit; cursor: pointer; }
+
+  .hias { position: fixed; pointer-events: none; z-index: 0; }
+  .bunting { top: -3vh; left: 50%; transform: translateX(-50%); height: 10vh; width: auto; max-width: 96vw; opacity: .95; }
+  .bunga-kiri { left: -3vw; bottom: -9vh; width: min(220px, 16vw); transform: scaleY(-1); opacity: .9; }
+  .bunga-kanan { right: -3vw; bottom: -9vh; width: min(220px, 16vw); opacity: .9; }
+
+  /* ---------- Susun atur (16:9 diutamakan) ---------- */
+  .susun { position: relative; z-index: 1; height: 100%; display: grid; grid-template-columns: 1fr minmax(250px, 24vw);
+           grid-template-rows: auto 1fr auto; gap: 1vh 1.6vw; padding: 7.5vh 2vw 1.6vh; }
+  header { grid-column: 1 / -1; display: flex; align-items: center; justify-content: center; gap: 1vw; }
+  header img { width: clamp(36px, 4.6vh, 60px); }
+  header h1 { font: 400 clamp(20px, 3.8vh, 46px)/1 "Butterpop", sans-serif; color: var(--merah); }
+  header p { margin-top: .4vh; font-weight: 700; font-size: clamp(10px, 1.5vh, 17px); color: var(--teal-tua); letter-spacing: .12em; text-transform: uppercase; }
+
+  .arena { grid-column: 1; grid-row: 2; position: relative; min-height: 0; display: grid; place-items: center; }
+  #bulatan { position: relative; width: var(--d, 600px); height: var(--d, 600px); }
+  #putar { position: absolute; inset: 0; animation: pusing 120s linear infinite; transform-origin: 50% 50%; }
+  @keyframes pusing { to { transform: rotate(360deg); } }
+  #gelangSvg { display: block; width: 100%; height: 100%; overflow: visible; }
+  #gelangSvg .nm { font-family: "Quicksand", sans-serif; font-weight: 700; fill: var(--biru-tua); }
+  #gelangSvg .nm.menang { fill: #c9a24a; opacity: .45; }
+  #gelangSvg .nm.batal { fill: #9a9a9a; opacity: .4; }
+  #gelangSvg .nm.sasaran { fill: var(--merah); opacity: 1; }
+  #gelangSvg .titik { fill: var(--koral); font-family: "Quicksand", sans-serif; font-weight: 700; }
+  #gelangSvg .sorot { fill: none; stroke: var(--kuning); stroke-linecap: round; opacity: .85; animation: sorot 1.2s ease-in-out infinite; }
+  @keyframes sorot { 50% { opacity: .45; } }
+
+  #tengah { position: absolute; left: 50%; top: 50%; width: var(--dc, 400px); height: var(--dc, 400px); transform: translate(-50%, -50%);
+            border-radius: 50%; overflow: hidden; background: radial-gradient(circle at 50% 40%, #fff 0%, #fffaf0 60%, #fff1d2 100%);
+            box-shadow: inset 0 0 0 .5vh rgba(252,182,42,.55), inset 0 0 3vh rgba(252,182,42,.25); }
+  #sedia, #keputusan { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 12%; }
+  #sedia img { width: 26%; filter: drop-shadow(0 .6vh .8vh rgba(14,36,94,.18)); }
+  #sedia b { margin-top: 3%; font: 400 calc(var(--dc) * .085)/1.05 "Butterpop", sans-serif; color: var(--merah); }
+  #sedia span { margin-top: 2.5%; font-weight: 700; font-size: calc(var(--dc) * .042); color: var(--teal-tua); }
+  #keputusan { display: none; perspective: 900px; }
+  #keputusan.nampak { display: flex; }
+  #keputusan .kad { display: flex; flex-direction: column; align-items: center; max-width: 100%; width: 100%; }
+  #keputusan.balik .kad { animation: kadBalik .7s cubic-bezier(.2,1.2,.4,1) both; }
+  @keyframes kadBalik { from { transform: rotateY(-90deg) scale(.9); } to { transform: rotateY(0); } }
+  #keputusan.pop .kad { animation: pop .55s cubic-bezier(.2,1.6,.4,1) both; }
+  @keyframes pop { from { transform: scale(.3); opacity: 0; } }
+  #keputusan .label { font-weight: 700; letter-spacing: .28em; font-size: calc(var(--dc) * .04); color: var(--koral); text-transform: uppercase; }
+  #namaBesar { margin-top: 2%; font: 400 40px/1.06 "Butterpop", sans-serif; color: var(--merah); overflow-wrap: normal; word-break: normal; width: 100%;
+               text-shadow: 0 .35vh 0 #fff, 0 .6vh 1.2vh rgba(215,38,43,.18); }
+  #tempatBesar { margin-top: 2.5%; font-weight: 700; font-size: calc(var(--dc) * .05); color: var(--teal-tua); }
+  #pentas { position: absolute; inset: 0; pointer-events: none; }
+  #pentas > * { position: absolute; left: 0; top: 0; will-change: transform, opacity; }
+  #pentas img { display: block; user-select: none; -webkit-user-drag: none; }
+
+  /* ---------- Kawalan & rekod (di luar bulatan) ---------- */
+  aside { grid-column: 2; grid-row: 2; display: flex; flex-direction: column; gap: 1.4vh; min-height: 0; }
+  .kawalan { display: flex; flex-direction: column; align-items: stretch; gap: 1vh; }
+  .butang-utama { padding: 1.6vh 1vw; border: 0; border-radius: 99px; background: var(--teal); color: #fff;
+                  font: 400 clamp(20px, 3.6vh, 42px)/1 "Butterpop", sans-serif; letter-spacing: .03em;
+                  box-shadow: 0 .7vh 0 var(--teal-tua), 0 1.6vh 3vh rgba(11,127,119,.3); transition: transform .1s; }
+  .butang-utama:active { transform: translateY(.5vh); box-shadow: 0 .2vh 0 var(--teal-tua); }
+  .butang-utama:disabled { background: #9fb9b6; box-shadow: 0 .7vh 0 #7d9894; cursor: default; }
+  .tidak-hadir { border: .3vh solid var(--koral); background: #fff; color: var(--merah); border-radius: 99px;
+                 padding: .8vh 1vw; font-weight: 700; font-size: clamp(12px, 1.7vh, 18px); display: none; }
+  .tidak-hadir.nampak { display: block; }
+  .tidak-hadir:disabled { opacity: .5; cursor: default; }
+  .petunjuk { text-align: center; font-size: clamp(10px, 1.4vh, 14px); color: var(--kelabu); font-weight: 700; }
+  .rekod { flex: 1; display: flex; flex-direction: column; min-height: 0; background: rgba(255,255,255,.88);
+           border-radius: 2.4vh; border: .4vh solid var(--teal); box-shadow: 0 .7vh 0 var(--teal); overflow: hidden; }
+  .rekod h2 { padding: 1.3vh 1.1vw; background: var(--teal); color: #fff; font: 400 clamp(16px, 2.6vh, 30px)/1 "Butterpop", sans-serif; display: flex; justify-content: space-between; align-items: center; }
+  .rekod h2 span { font: 700 clamp(12px, 1.8vh, 20px)/1 "Quicksand", sans-serif; background: rgba(255,255,255,.25); padding: .5vh .8vw; border-radius: 99px; }
+  #senarai { list-style: none; overflow-y: auto; flex: 1; padding: .8vh .7vw 1.2vh; counter-reset: p; }
+  #senarai li { counter-increment: p; display: grid; grid-template-columns: 3vh 1fr; gap: .7vw; align-items: start; padding: .8vh .3vw; border-bottom: .2vh dashed #e8dcc0; }
+  #senarai li::before { content: counter(p); width: 3vh; height: 3vh; border-radius: 50%; background: var(--kuning); color: var(--biru-tua);
+                        display: grid; place-items: center; font: 700 clamp(11px, 1.5vh, 16px)/1 "Quicksand", sans-serif; }
+  #senarai b { display: block; font-size: clamp(12px, 1.8vh, 19px); color: var(--biru-tua); line-height: 1.2; overflow-wrap: anywhere; }
+  #senarai small { display: block; margin-top: .3vh; font-size: clamp(10px, 1.45vh, 15px); font-weight: 700; color: var(--teal-tua); }
+  #senarai .status { display: inline-block; margin-top: .4vh; padding: .2vh .6vw; border-radius: 99px; font-size: clamp(9px, 1.3vh, 13px); font-weight: 700; background: var(--kuning-cerah); color: var(--biru-tua); }
+  #senarai li.batal::before { content: "✕"; background: #eee; color: var(--kelabu); }
+  #senarai li.batal { counter-increment: none; }
+  #senarai li.batal b { text-decoration: line-through; color: var(--kelabu); }
+  #senarai li.batal .status { background: #eee; color: var(--merah); }
+  #senarai .kosong { display: block; padding: 2vh 1vw; color: var(--kelabu); font-weight: 700; font-size: clamp(12px, 1.7vh, 17px); }
+  #senarai .kosong::before { display: none; }
+
+  footer { position: relative; z-index: 2; grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: 1vh 1vw; align-items: center; justify-content: space-between;
+           font-weight: 700; font-size: clamp(11px, 1.55vh, 16px); color: var(--kelabu); }
+  footer .kiraan { background: rgba(255,255,255,.85); padding: .7vh 1.3vw; border-radius: 99px; }
+  footer .kiraan b { color: var(--biru-tua); font-size: 1.25em; }
+  footer .alat { display: flex; flex-wrap: wrap; gap: .7vw; }
+  footer .alat button, footer .alat label { border: .2vh solid #d9c9a4; background: rgba(255,255,255,.85); color: var(--dakwat); border-radius: 99px;
+                         padding: .7vh 1.1vw; font-weight: 700; font-size: inherit; cursor: pointer; }
+  footer .alat input { display: none; }
+  #status.ralat { color: var(--merah); }
+  canvas#konfeti { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 7; }
+
+  /* ---------- Telefon / potret ---------- */
+  @media (max-aspect-ratio: 4/5) {
+    body { overflow-y: auto; }
+    .susun { height: auto; min-height: 100%; grid-template-columns: 1fr; grid-template-rows: auto auto auto auto; padding: 6vh 4vw 3vh; gap: 2vh; }
+    .arena { grid-column: 1; grid-row: 2; height: min(94vw, 62vh); }
+    aside { grid-column: 1; grid-row: 3; }
+    .rekod { max-height: 40vh; }
+    .petunjuk { display: none; }
+    footer { grid-row: 4; }
+  }
+  @media (prefers-reduced-motion: reduce) { #putar { animation-duration: 600s !important; } }
+</style>
+</head>
+<body>
+<img class="hias bunting" src="bunting.webp" alt="">
+<img class="hias bunga-kiri" src="bunga_kiri.webp" alt="">
+<img class="hias bunga-kanan" src="bunga_kanan.webp" alt="">
+<canvas id="konfeti"></canvas>
+
+<div class="susun">
+  <header>
+    <img src="logo.png" alt="Logo SK Lotong">
+    <div><h1>Cabutan Nama Bertuah</h1><p>Hari Keluarga SK Lotong · Isnin, 16 November 2026</p></div>
+  </header>
+
+  <main class="arena" id="arena">
+    <div id="bulatan">
+      <div id="putar"><svg id="gelangSvg" aria-label="Gelang nama peserta"></svg></div>
+      <div id="tengah">
+        <div id="sedia"><img src="logo.png" alt=""><b>Sedia untuk cabutan</b><span id="sediaKira"></span></div>
+        <div id="pentas" aria-hidden="true"></div>
+        <div id="keputusan" aria-live="assertive"><div class="kad"><div class="label">🎉 Tahniah! 🎉</div><div id="namaBesar"></div><div id="tempatBesar"></div></div></div>
+      </div>
+    </div>
+  </main>
+
+  <aside>
+    <div class="kawalan">
+      <button class="butang-utama" id="cabut" disabled>Cabut Nama</button>
+      <button class="tidak-hadir" id="tidakHadir" title="Tandakan pemenang terakhir tiada di dewan, kemudian cabut semula">Tiada di dewan? Cabut semula</button>
+      <div class="petunjuk"><b>Space</b>/<b>Enter</b> cabut · <b>F</b> skrin penuh</div>
+    </div>
+    <div class="rekod">
+      <h2>Pemenang <span id="bilMenang">0</span></h2>
+      <ol id="senarai"><li class="kosong">Belum ada pemenang.</li></ol>
+    </div>
+  </aside>
+
+  <footer>
+    <div class="kiraan">Peserta: <b id="bilPeserta">0</b> · Baki dalam cabutan: <b id="bilBaki">0</b> · <span id="status">Memuatkan senarai…</span></div>
+    <div class="alat">
+      <button id="muatSemula" title="Ambil senarai terkini daripada Google Sheet">↻ Muat semula senarai</button>
+      <label title="Guna fail CSV (Nama, Tempat) jika internet terputus">⇪ Muat naik CSV<input type="file" id="failCsv" accept=".csv,text/csv"></label>
+      <button id="bunyi" title="Hidup/matikan bunyi" aria-pressed="true">🔊 Bunyi</button>
+      <button id="skrinPenuh">⛶ Skrin penuh</button>
+      <button id="setSemula" title="Kosongkan senarai pemenang">Set semula</button>
+    </div>
+  </footer>
+</div>
+
+<script>
+/* ===== Tetapan =====
+   CSV_URL: pautan "Publish to web" (CSV) bagi tab "Cabutan" sahaja (lajur A = NAMA, B = TEMPAT). Boleh juga ?csv=<pautan>.
+   Latihan: ?demo=1 (18 nama contoh) atau ?demo=<bilangan>. Ujian aset gagal: ?ujiAsetGagal=1 */
+const CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQl1aX4ZyK5__h5B4o1FBZMeWOWwkO5znmmisufD385Ec7DvyBl-mbLu_PGWP5B3eVCl4l8mS5c7iUs/pub?gid=1893845792&single=true&output=csv';
+const KUNCI = 'cabutan-hk-sklotong-2026';
+const TEMPOH_PUSINGAN = 120;      // saat bagi satu pusingan gelang
+
+const $ = (id) => document.getElementById(id);
+const param = new URLSearchParams(location.search);
+const ASET = param.get('ujiAsetGagal') ? 'aset-tiada/' : 'aset/';
+let peserta = [];            // [{id, nama, tempat}]
+let pemenang = [];           // [{id, nama, tempat, batal}]
+let sedangPutar = false, bunyiOn = true, sasaranId = null;
+const nmMap = new Map();     // id -> {el, o, w}  (elemen teks di gelang dan kedudukan pada lilitan)
+let geo = null;              // geometri gelang semasa
+
+try { pemenang = JSON.parse(localStorage.getItem(KUNCI) || '[]'); } catch { pemenang = []; }
+const simpan = () => { try { localStorage.setItem(KUNCI, JSON.stringify(pemenang)); } catch {} };
+
+/* ---- Aset: gambar & bunyi (jika gagal dimuat, cabutan diteruskan tanpa animasi itu) ---- */
+const GAMBAR = ['selipar_getah', 'lastik_rangka', 'gelang_getah', 'murid_sedia', 'murid_lompat', 'batu_seremban'];
+const gambarOK = {};
+const sediaGambar = Promise.all(GAMBAR.map(n => new Promise(r => {
+  const im = new Image(); im.onload = () => { gambarOK[n] = im.naturalWidth > 0; r(); }; im.onerror = () => { gambarOK[n] = false; r(); };
+  im.src = ASET + n + '.png'; setTimeout(r, 6000);
+})));
+const BUNYI = { pap: 'selipar_pap', twang: 'getah_twang', ding: 'pemenang_ding' };
+const audio = {};
+for (const [k, f] of Object.entries(BUNYI)) {
+  const a = new Audio(); a.preload = 'auto'; a.src = ASET + f + '.mp3';
+  a.addEventListener('error', () => { a.gagal = true; }); audio[k] = a;
+}
+let ac;
+function nada(f, t0, dur, jenis = 'triangle', vol = .18) {
+  if (!bunyiOn) return;
+  try { ac = ac || new (window.AudioContext || window.webkitAudioContext)(); } catch { return; }
+  const o = ac.createOscillator(), g = ac.createGain(); o.type = jenis; const t = ac.currentTime + t0;
+  o.frequency.setValueAtTime(f, t); g.gain.setValueAtTime(vol, t); g.gain.exponentialRampToValueAtTime(.0001, t + dur);
+  o.connect(g).connect(ac.destination); o.start(t); o.stop(t + dur + .02);
+}
+const ganti = { pap: () => nada(160, 0, .18, 'square', .12), twang: () => nada(330, 0, .4, 'sawtooth', .07),
+                ding: () => [784, 1047, 1319].forEach((f, i) => nada(f, i * .1, .6, 'triangle', .18)) };
+let bunyiDimainkan = [];     // rekod untuk ujian
+function main(k) {
+  bunyiDimainkan.push(k);
+  if (!bunyiOn) return;
+  const a = audio[k];
+  if (!a || a.gagal) return ganti[k]();
+  try { const c = a.cloneNode(); c.volume = .9; c.play().catch(() => ganti[k]()); } catch { ganti[k](); }
+}
+
+/* ---- CSV ---- */
+function bacaCsv(teks) {
+  const baris = []; let r = [], f = '', q = false;
+  for (let i = 0; i < teks.length; i++) {
+    const c = teks[i];
+    if (q) { if (c === '"') { if (teks[i+1] === '"') { f += '"'; i++; } else q = false; } else f += c; }
+    else if (c === '"') q = true;
+    else if (c === ',') { r.push(f); f = ''; }
+    else if (c === '\n' || c === '\r') { if (c === '\r' && teks[i+1] === '\n') i++; r.push(f); baris.push(r); r = []; f = ''; }
+    else f += c;
+  }
+  if (f !== '' || r.length) { r.push(f); baris.push(r); }
+  return baris;
+}
+function bina(baris) {
+  const kira = {}; const out = [];
+  for (const b of baris) {
+    const nama = (b[0] || '').replace(/\s+/g, ' ').trim().toUpperCase();
+    const tempat = (b[1] || '').replace(/\s+/g, ' ').trim().toUpperCase();
+    if (!nama || nama === 'NAMA') continue;
+    const asas = nama + '|' + tempat; kira[asas] = (kira[asas] || 0) + 1;
+    out.push({ id: asas + '|' + kira[asas], nama, tempat });
+  }
+  return out;
+}
+const bakiPool = () => { const ambil = new Set(pemenang.map(p => p.id)); return peserta.filter(p => !ambil.has(p.id)); };
+function status(t, ralat) { const s = $('status'); s.textContent = t; s.classList.toggle('ralat', !!ralat); }
+
+/* ===================== Gelang nama melengkung ===================== */
+const SVGNS = 'http://www.w3.org/2000/svg';
+const ukur = document.createElement('canvas').getContext('2d');
+function lebar100(teks) { ukur.font = '700 100px Quicksand, sans-serif'; return ukur.measureText(teks).width; }
+
+function susunBulatan() {
+  const arena = $('arena'); const W = arena.clientWidth, H = arena.clientHeight; if (!W || !H) return;
+  const d = Math.floor(Math.min(W, H) - 4);
+  $('bulatan').style.setProperty('--d', d + 'px');
+  binaGelang(d);
+}
+/* Gelang berlapis (1–7 lapis). Pilih bilangan lapis dan saiz fon terbesar supaya setiap nama muat penuh
+   dalam lapisnya, sambil ruang tengah kekal sekurang-kurangnya 40% garis pusat untuk animasi dan nama pemenang. */
+const LAPIS_MAKS = 7, TENGAH_MIN = .4, JALUR_EM = 2.3;
+function agihLapis(f, L, lebar, sep, R) {
+  // jejari & lilitan setiap lapis (luar → dalam)
+  const band = f * JALUR_EM, lapis = [];
+  for (let k = 0; k < L; k++) { const r = R - band * (k + .5); lapis.push({ r, C: 2 * Math.PI * r, nama: [], guna: 0 }); }
+  const perlu = lebar.reduce((a, w) => a + w * f + sep * f, 0), muatan = lapis.reduce((a, l) => a + l.C, 0);
+  if (perlu > muatan) return null;
+  // agih mengikut nisbah lilitan supaya setiap lapis sama padat
+  let i = 0, kumulatifSasar = 0;
+  for (let k = 0; k < L; k++) {
+    const l = lapis[k]; kumulatifSasar += perlu * l.C / muatan;
+    let kumulatif = lapis.slice(0, k).reduce((a, x) => a + x.guna, 0);
+    while (i < lebar.length) {
+      const panjang = lebar[i] * f + sep * f;
+      const akhir = k === L - 1;
+      if (l.guna + panjang > l.C + .01) break;                               // tidak muat dalam lapis ini
+      if (!akhir && l.nama.length && kumulatif + panjang / 2 > kumulatifSasar) break;
+      l.nama.push(i); l.guna += panjang; kumulatif += panjang; i++;
+    }
+  }
+  return i === lebar.length ? lapis.filter(l => l.nama.length) : null;
+}
+function binaGelang(d) {
+  const svg = $('gelangSvg'); svg.setAttribute('viewBox', `0 0 ${d} ${d}`); svg.innerHTML = ''; nmMap.clear();
+  const c = d / 2, R = c - 3, N = peserta.length;
+  const lebar = peserta.map(p => lebar100(p.nama) / 100);                    // lebar setiap nama dalam em
+  const sep = lebar100(' • ') / 100;                                         // pemisah minimum (em)
+  const fMaks = d * .05, dcMin = d * TENGAH_MIN;
+  let terbaik = { f: fMaks, L: 1, lapis: [] };
+  if (N) {
+    terbaik = null;
+    for (let L = 1; L <= LAPIS_MAKS; L++) {
+      let lo = .3, hi = fMaks, cal = null;
+      for (let it = 0; it < 22; it++) {
+        const f = (lo + hi) / 2, dc = 2 * (R - f * JALUR_EM * L) - Math.max(8, d * .02);
+        const lp = dc >= dcMin ? agihLapis(f, L, lebar, sep, R) : null;
+        if (lp) { lo = f; cal = { f, L, lapis: lp }; } else hi = f;
+      }
+      if (!cal) { const f = lo, lp = agihLapis(f, L, lebar, sep, R); if (lp) cal = { f, L, lapis: lp }; }
+      // utamakan lapis lebih sedikit melainkan tulisan menjadi sekurang-kurangnya 8% lebih besar
+      if (cal && (!terbaik || cal.f > terbaik.f * 1.08)) terbaik = cal;
+    }
+    if (!terbaik) terbaik = { f: .3, L: LAPIS_MAKS, lapis: agihLapis(.3, LAPIS_MAKS, lebar, sep, R) || [] };
+  }
+  const f = terbaik.f, band = f * JALUR_EM, Lsebenar = Math.max(1, terbaik.lapis.length);
+  const dc = Math.max(40, 2 * (R - band * Lsebenar) - Math.max(8, d * .02));
+  document.documentElement.style.setProperty('--dc', dc + 'px');
+  geo = { d, c, R, f, band, L: Lsebenar, lapis: [] };
+
+  let html = `<defs>`;
+  const laluan = (r) => `M ${c} ${c - r} A ${r} ${r} 0 1 1 ${c} ${c + r} A ${r} ${r} 0 1 1 ${c} ${c - r}`;
+  for (let k = 0; k < Lsebenar; k++) { const r = R - band * (k + .5); html += `<path id="lingkar${k}" d="${laluan(r)}"/>`; }
+  html += `</defs><circle cx="${c}" cy="${c}" r="${R}" fill="#fff" stroke="#FCB62A" stroke-width="${Math.max(2, d * .006)}"/>`;
+  for (let k = 0; k < Lsebenar; k++) {
+    const r = R - band * (k + .5);
+    html += `<circle cx="${c}" cy="${c}" r="${r}" fill="none" stroke="${k % 2 ? '#FFF7E4' : '#FFEFCB'}" stroke-width="${band}"/>`;
+  }
+  html += `<circle cx="${c}" cy="${c}" r="${R - band * Lsebenar}" fill="none" stroke="#FCB62A" stroke-opacity=".55" stroke-width="${Math.max(1.5, d * .003)}"/>`;
+  for (let k = 0; k < Lsebenar; k++) html += `<path id="sorot${k}" class="sorot" d="${laluan(R - band * (k + .5))}" stroke-width="${f * 1.7}" style="display:none"/>`;
+  svg.innerHTML = html;
+  if (!N) { kemasKiniPusat(); return; }
+
+  const frag = document.createDocumentFragment();
+  terbaik.lapis.forEach((l, k) => {
+    const r = R - band * (k + .5), C = 2 * Math.PI * r;
+    const jumlahW = l.nama.reduce((a, i) => a + lebar[i] * f, 0);
+    const sela = (C - jumlahW) / l.nama.length;                              // ruang sama rata dalam lapis
+    geo.lapis.push({ r, C, sela, bil: l.nama.length });
+    let o = 0;
+    for (const i of l.nama) {
+      const p = peserta[i], w = lebar[i] * f;
+      const t = document.createElementNS(SVGNS, 'text'); t.setAttribute('class', 'nm'); t.setAttribute('font-size', f.toFixed(2)); t.setAttribute('dominant-baseline', 'central');
+      const tp = document.createElementNS(SVGNS, 'textPath'); tp.setAttribute('href', '#lingkar' + k); tp.setAttribute('startOffset', o.toFixed(2)); tp.textContent = p.nama;
+      t.append(tp); frag.append(t); nmMap.set(p.id, { el: t, o, w, k });
+      const titik = document.createElementNS(SVGNS, 'text'); titik.setAttribute('class', 'titik'); titik.setAttribute('font-size', f.toFixed(2));
+      titik.setAttribute('dominant-baseline', 'central'); titik.setAttribute('text-anchor', 'middle');
+      const tp2 = document.createElementNS(SVGNS, 'textPath'); tp2.setAttribute('href', '#lingkar' + k); tp2.setAttribute('startOffset', (o + w + sela / 2).toFixed(2)); tp2.textContent = '•';
+      titik.append(tp2); frag.append(titik);
+      o += w + sela;
+    }
+  });
+  svg.append(frag); statusGelang(); kemasKiniPusat();
+}
+function statusGelang() {
+  const rekod = new Map(pemenang.map(p => [p.id, p]));
+  for (const [id, m] of nmMap) {
+    const r = rekod.get(id);
+    m.el.classList.toggle('menang', !!r && !r.batal); m.el.classList.toggle('batal', !!r && !!r.batal); m.el.classList.toggle('sasaran', id === sasaranId);
+  }
+  document.querySelectorAll('#gelangSvg .sorot').forEach(e => e.style.display = 'none');
+  const m = sasaranId && nmMap.get(sasaranId);
+  if (m && geo && geo.lapis[m.k]) {
+    const sorot = $('sorot' + m.k), pad = geo.f * .35; sorot.style.display = '';
+    sorot.setAttribute('stroke-dasharray', `${m.w + 2 * pad} ${geo.lapis[m.k].C}`); sorot.setAttribute('stroke-dashoffset', (-(m.o - pad)).toFixed(2));
+  }
+}
+function kemasKiniPusat() { $('sediaKira').textContent = bakiPool().length + ' peserta layak'; }
+
+function kemasKini() {
+  $('bilPeserta').textContent = peserta.length;
+  $('bilBaki').textContent = bakiPool().length;
+  $('bilMenang').textContent = pemenang.filter(p => !p.batal).length;
+  $('cabut').disabled = sedangPutar || bakiPool().length === 0;
+  $('tidakHadir').disabled = sedangPutar;
+  const ol = $('senarai'); ol.innerHTML = '';
+  if (!pemenang.length) ol.innerHTML = '<li class="kosong">Belum ada pemenang.</li>';
+  for (const p of pemenang) {
+    const li = document.createElement('li'); if (p.batal) li.className = 'batal';
+    const d = document.createElement('div'); const b = document.createElement('b'); const s = document.createElement('small'); const st = document.createElement('span');
+    st.className = 'status'; st.textContent = p.batal ? 'Tiada di dewan' : '🏆 Sudah menang';
+    b.textContent = p.nama; s.textContent = p.tempat || '—'; d.append(b, s, st); li.append(d); ol.append(li);
+  }
+  ol.scrollTop = ol.scrollHeight; statusGelang(); kemasKiniPusat();
+}
+
+async function muat() {
+  const url = param.get('csv') || CSV_URL;
+  if (param.get('demo')) { peserta = bina(contoh(parseInt(param.get('demo'), 10))); status('Mod latihan: nama contoh'); susunBulatan(); kemasKini(); return; }
+  if (!url) { status('Pautan senarai belum ditetapkan. Guna "Muat naik CSV".', true); susunBulatan(); kemasKini(); return; }
+  status('Memuatkan senarai…');
+  try {
+    const res = await fetch(url + (url.includes('?') ? '&' : '?') + 't=' + Date.now(), { cache: 'no-store' });
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    peserta = bina(bacaCsv(await res.text()));
+    status('Senarai dikemas kini ' + new Date().toLocaleTimeString('ms-MY', { hour: '2-digit', minute: '2-digit' }));
+  } catch (e) {
+    status('Gagal memuatkan senarai (' + e.message + '). Semak internet atau guna "Muat naik CSV".', true);
+  }
+  susunBulatan(); kemasKini();
+}
+
+/* ---- Rawak (crypto) ---- */
+function rawak(n) { const a = new Uint32Array(1); const had = Math.floor(0x100000000 / n) * n; let x; do { crypto.getRandomValues(a); x = a[0]; } while (x >= had); return x % n; }
+
+/* ---- Konfeti ---- */
+const cv = $('konfeti'), cx = cv.getContext('2d'); let serpih = [], animKonfeti = 0;
+function konfeti() {
+  cv.width = innerWidth * devicePixelRatio; cv.height = innerHeight * devicePixelRatio;
+  const b = $('tengah').getBoundingClientRect(), ox = (b.left + b.width / 2) * devicePixelRatio, oy = (b.top + b.height / 2) * devicePixelRatio;
+  const warna = ['#FCB62A', '#FA5242', '#0DB3A6', '#1F4FA3', '#D7262B', '#FFE08A'];
+  for (let i = 0; i < 220; i++) serpih.push({ x: ox + (Math.random() - .5) * b.width * devicePixelRatio * .6, y: oy, vx: (Math.random() - .5) * 26 * devicePixelRatio,
+    vy: (-Math.random() * 26 - 8) * devicePixelRatio, s: (6 + Math.random() * 8) * devicePixelRatio, r: Math.random() * 6, vr: (Math.random() - .5) * .4, c: warna[i % warna.length] });
+  if (!animKonfeti) langkahKonfeti();
+}
+function langkahKonfeti() {
+  cx.clearRect(0, 0, cv.width, cv.height);
+  serpih = serpih.filter(p => p.y < cv.height + 40);
+  for (const p of serpih) { p.vy += .55 * devicePixelRatio; p.vx *= .99; p.x += p.vx; p.y += p.vy; p.r += p.vr;
+    cx.save(); cx.translate(p.x, p.y); cx.rotate(p.r); cx.fillStyle = p.c; cx.fillRect(-p.s / 2, -p.s / 4, p.s, p.s / 2); cx.restore(); }
+  animKonfeti = serpih.length ? requestAnimationFrame(langkahKonfeti) : 0;
+}
+
+/* ===================== Animasi (semuanya dalam ruang tengah bulatan) ===================== */
+const pentas = $('pentas');
+const jeda = (ms) => new Promise(r => setTimeout(r, ms));
+const lerp = (a, b, t) => a + (b - a) * t;
+const lembut = (t) => t < .5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
+const keluar = (t) => 1 - Math.pow(1 - t, 3);
+const bezier = (a, c, b, t) => (1 - t) * (1 - t) * a + 2 * (1 - t) * t * c + t * t * b;
+function jalan(ms, bingkai) {
+  return new Promise(selesai => { const mula = performance.now();
+    (function f(now) { const p = Math.min(1, (now - mula) / ms); bingkai(p); p < 1 ? requestAnimationFrame(f) : selesai(); })(mula); });
+}
+function img(nama, lebar) { const e = document.createElement('img'); e.src = ASET + nama + '.png'; e.alt = ''; e.style.width = lebar + 'px'; e.style.opacity = 0; pentas.append(e); return e; }
+function svgPentas(D) { const s = document.createElementNS(SVGNS, 'svg'); s.setAttribute('width', D); s.setAttribute('height', D); pentas.append(s); return s; }
+const letak = (e, x, y, r = 0, s = 1, o = 1, sx = 1) => { e.style.transform = `translate(${x}px, ${y}px) translate(-50%, -50%) rotate(${r}deg) scale(${s * sx}, ${s})`; e.style.opacity = o; };
+
+/* 1. Umban Selipar: satu selipar melayang dari sisi, merobohkan tiga selipar sasaran */
+async function umbanSelipar(D) {
+  const s = D * .2, sasaran = [[.6, .64], [.76, .64], [.68, .47]].map(([x, y]) => ({ e: img('selipar_getah', s), x: x * D, y: y * D, r: (Math.random() - .5) * 12, vx: 0, vy: 0, vr: 0 }));
+  const lontar = img('selipar_getah', s * .9);
+  const x0 = D * .14, y0 = D * .66, xT = D * .66, yT = D * .55;
+  await jalan(300, p => { sasaran.forEach(b => letak(b.e, b.x, b.y - (1 - keluar(p)) * D * .05, b.r, 1, keluar(p))); letak(lontar, x0, y0, -30, 1, keluar(p)); });
+  await jalan(750, p => { const t = lembut(p); letak(lontar, bezier(x0, D * .38, xT, t), bezier(y0, D * .2, yT, t), -30 + p * 760, 1); });
+  main('pap');                                                     // tepat ketika hentaman
+  sasaran.forEach((b, i) => { b.vx = D * (.006 + Math.random() * .008); b.vy = -D * (.008 + Math.random() * .01) + i * D * .002; b.vr = 6 + Math.random() * 10; });
+  let lx = xT, ly = yT, lvx = -D * .006, lvy = -D * .01;
+  await jalan(1100, p => {
+    sasaran.forEach(b => { b.vy += D * .0011; b.x += b.vx; b.y += b.vy; b.r += b.vr; letak(b.e, b.x, b.y, b.r, 1, p < .7 ? 1 : (1 - p) / .3); });
+    lvy += D * .0011; lx += lvx; ly += lvy; letak(lontar, lx, ly, 730 + p * 300, 1, p < .6 ? 1 : (1 - p) / .4); });
+}
+
+/* 2. Lastik Getah: tali ditarik dan dilepaskan; titik kecil meluncur ke pusat dan berkilau */
+async function lastikGetah(D) {
+  const s = D * .36, lx = D * .5, ly = D * .7, lastik = img('lastik_rangka', s);
+  const kiri = [lx + (0.237 - .5) * s, ly + (0.093 - .5) * s], kanan = [lx + (0.767 - .5) * s, ly + (0.095 - .5) * s];
+  const svg = svgPentas(D);
+  svg.innerHTML = `<polyline id="tali" fill="none" stroke="#D7262B" stroke-width="${Math.max(3, D * .011)}" stroke-linejoin="round" stroke-linecap="round"/>
+    <circle id="titikBatu" r="${D * .022}" fill="#0E245E" stroke="#fff" stroke-width="2"/><g id="kilau" stroke="#FCB62A" stroke-linecap="round"></g>`;
+  const tali = svg.querySelector('#tali'), batu = svg.querySelector('#titikBatu'), kilau = svg.querySelector('#kilau');
+  const restY = (kiri[1] + kanan[1]) / 2;
+  const tarik = (y) => { tali.setAttribute('points', `${kiri} ${lx},${y} ${kanan}`); batu.setAttribute('cx', lx); batu.setAttribute('cy', y); };
+  await jalan(250, p => { letak(lastik, lx, ly, 0, .9 + .1 * keluar(p), keluar(p)); tarik(restY); });
+  await jalan(650, p => tarik(restY + keluar(p) * D * .2));
+  main('twang'); await jeda(90);                                  // fail bunyi bermula ~100 ms selepas dimainkan
+  await jalan(90, p => tarik(restY + D * .2 - p * D * .26));       // dilepaskan
+  tali.setAttribute('points', `${kiri} ${lx},${restY} ${kanan}`);
+  const y0 = restY - D * .06, yT = D * .4;
+  await jalan(480, p => { const t = keluar(p); batu.setAttribute('cy', lerp(y0, yT, t)); batu.setAttribute('r', D * .022 * (1 - .55 * p)); });
+  batu.setAttribute('opacity', 0);
+  kilau.innerHTML = Array.from({ length: 10 }, (_, i) => `<line data-a="${i * 36}"/>`).join('');
+  await jalan(600, p => { kilau.querySelectorAll('line').forEach(l => { const a = l.dataset.a * Math.PI / 180, r1 = D * (.02 + .1 * keluar(p)), r2 = r1 + D * .05 * (1 - p);
+      l.setAttribute('x1', lx + Math.cos(a) * r1); l.setAttribute('y1', yT + Math.sin(a) * r1); l.setAttribute('x2', lx + Math.cos(a) * r2); l.setAttribute('y2', yT + Math.sin(a) * r2);
+      l.setAttribute('stroke-width', D * .012 * (1 - p) + 1); });
+    letak(lastik, lx, ly, 0, 1, 1 - p); tali.setAttribute('opacity', 1 - p); });
+}
+
+/* 3. Main Getah: gelang dijentik merentasi ruang tengah, melantun dan berhenti di pusat */
+let gelangBingkai = null;
+async function mainGetah(D) {
+  const s = D * .3, g = img('gelang_getah', s); gelangBingkai = g;
+  const x0 = D * .16, y0 = D * .6, xC = D * .5, yC = D * .5;
+  await jalan(260, p => letak(g, x0, y0, -10, 1, keluar(p), 1 + .25 * Math.sin(p * Math.PI)));   // ditarik di jari
+  main('twang');                                                                                  // dijentik
+  await jalan(900, p => { const t = keluar(p); letak(g, bezier(x0, D * .62, D * .76, t), bezier(y0, D * .22, yC, t), -10 + p * 900, 1, 1, 1 - .5 * Math.abs(Math.sin(p * 9))); });
+  await jalan(900, p => { const w = Math.exp(-4.5 * p) * Math.sin(p * 18); letak(g, lerp(D * .76, xC, keluar(p)) + w * D * .03, yC - Math.abs(w) * D * .06, w * 20, 1, 1); });
+}
+/* Selepas nama muncul: gelang dibesarkan seketika untuk membingkai nama */
+async function bingkaiGelang(D) {
+  const g = gelangBingkai; if (!g) return; gelangBingkai = null;
+  await jeda(560);                                                 // tunggu kesan 'pop' nama selesai sebelum mengukur
+  if (sedangPutar) return;
+  const k = document.querySelector('#keputusan .kad');
+  // ukuran sebenar teks nama (bukan lebar bekas) supaya gelang mengelilingi nama dengan ruang tepi
+  const rg = document.createRange(); rg.selectNodeContents($('namaBesar')); const rt = rg.getBoundingClientRect();
+  const lebarS = Math.min(D * .97, Math.max(rt.width, k.querySelector('.label').offsetWidth) + D * .22) / (D * .3), tinggiS = Math.min(D * .96, k.offsetHeight + D * .36) / (D * .15);
+  await jalan(450, p => letak(g, D * .5, D * .5, 0, lerp(1, tinggiS, keluar(p)), 1, lerp(1, lebarS / tinggiS, keluar(p))));
+  await jeda(1300);
+  await jalan(500, p => { g.style.opacity = 1 - p; });
+}
+
+/* 4. Zero Point: tali naik mengikut aras; murid melompat dan mendarat */
+async function zeroPoint(D) {
+  const s = D * .34, tanah = D * .8, svg = svgPentas(D);
+  const xa = D * .12, xb = D * .88;
+  svg.innerHTML = `<line x1="${D * .1}" x2="${D * .9}" y1="${tanah + 2}" y2="${tanah + 2}" stroke="#e8c98a" stroke-width="3" stroke-dasharray="8 6"/>
+    <line id="tali" stroke="#D7262B" stroke-width="${Math.max(3, D * .012)}" stroke-linecap="round"/>
+    <circle id="p1" r="${D * .018}" fill="#0E245E"/><circle id="p2" r="${D * .018}" fill="#0E245E"/>`;
+  const tali = svg.querySelector('#tali'), p1 = svg.querySelector('#p1'), p2 = svg.querySelector('#p2');
+  const lukis = (y, gg = 0) => { tali.setAttribute('x1', xa); tali.setAttribute('x2', xb); tali.setAttribute('y1', y); tali.setAttribute('y2', y + gg);
+    p1.setAttribute('cx', xa); p1.setAttribute('cy', y); p2.setAttribute('cx', xb); p2.setAttribute('cy', y + gg); };
+  // dua pose pada kanvas yang sama saiz; tukar keterlihatan sahaja
+  const sedia = img('murid_sedia', s), lompat = img('murid_lompat', s);
+  const pose = (x, kaki, nama, sq = 1) => { const y = kaki - s / 2; letak(sedia, x, y, 0, 1, nama === 'sedia' ? 1 : 0, sq); letak(lompat, x, y, 0, 1, nama === 'lompat' ? 1 : 0, sq); };
+  const aras = [D * .05, D * .11, D * .18];                       // buku lali → lutut → pinggang
+  let y = tanah - aras[0]; lukis(y);
+  await jalan(250, p => { pose(D * .5, tanah, 'sedia'); sedia.style.opacity = keluar(p); });
+  for (let i = 0; i < 3; i++) {
+    const yBaru = tanah - aras[i];
+    await jalan(150, p => lukis(lerp(y, yBaru, lembut(p)))); y = yBaru;
+    await jalan(90, p => pose(D * .5, tanah + D * .01 * Math.sin(p * Math.PI), 'sedia', 1 + .06 * Math.sin(p * Math.PI)));
+    const tinggi = aras[i] + D * .1;
+    await jalan(480, p => { pose(D * .5 + Math.sin(p * Math.PI * 2) * D * .015, tanah - Math.sin(p * Math.PI) * tinggi, 'lompat'); lukis(y, Math.sin(p * Math.PI * 3) * D * .01 * (1 - p)); });
+    pose(D * .5, tanah, 'sedia');                                  // mendarat
+    nada(180, 0, .08, 'sine', .15);
+    await jeda(70);
+  }
+}
+
+/* 5. Batu Seremban: satu uncang dilambung, empat dikutip; tangkapan terakhir membalikkan kad */
+async function batuSeremban(D) {
+  const s = D * .12, tangan = [D * .5, D * .7];
+  const uncang = Array.from({ length: 5 }, () => img('batu_seremban', s));
+  const kedudukan = [[.5, .66], [.3, .63], [.4, .69], [.6, .69], [.7, .63]].map(([x, y]) => [x * D, y * D]);
+  await jalan(220, p => uncang.forEach((u, i) => letak(u, kedudukan[i][0], kedudukan[i][1], i * 25, keluar(p), keluar(p))));
+  const lambung = (ms, tinggi, kutip) => jalan(ms, p => {
+    letak(uncang[0], tangan[0], tangan[1] - Math.sin(p * Math.PI) * tinggi, p * 360, 1);
+    const [x, y] = kedudukan[kutip], t = keluar(Math.min(1, p * 1.6));
+    letak(uncang[kutip], lerp(x, tangan[0] + (kutip - 2.5) * s * .12, t), lerp(y, tangan[1] + s * .1, t), kutip * 25, 1 - .35 * t, 1 - .6 * t);
+  });
+  for (let k = 1; k <= 4; k++) { await lambung(330, D * .3, k); nada(500 + k * 90, 0, .06, 'square', .05); }
+  await jalan(520, p => uncang.forEach((u, i) => letak(u, tangan[0] + Math.sin((p + i / 5) * Math.PI * 2) * D * .07 * (1 - p), tangan[1] - Math.sin(p * Math.PI) * D * .34, p * 540 + i * 70, 1)));
+  nada(200, 0, .1, 'sine', .2);                                    // tangkapan terakhir
+  const kad = document.createElement('div');
+  kad.style.cssText = `width:${D * .62}px;height:${D * .42}px;border-radius:${D * .04}px;background:repeating-linear-gradient(45deg,#FCB62A 0 ${D * .03}px,#ffd36b ${D * .03}px ${D * .06}px);border:${D * .012}px solid #fff;box-shadow:0 ${D * .015}px ${D * .04}px #0003;opacity:0`;
+  pentas.append(kad);
+  await jalan(380, p => { uncang.forEach(u => u.style.opacity = 1 - p); kad.style.transform = `translate(${D * .5}px,${D * .5}px) translate(-50%,-50%) perspective(${D * 2}px) rotateY(${p * 90}deg)`; kad.style.opacity = Math.min(1, p * 4); });
+}
+
+const ANIMASI = [
+  { nama: 'Umban Selipar', fn: umbanSelipar, perlu: ['selipar_getah'], dedah: 'pop' },
+  { nama: 'Lastik Getah',  fn: lastikGetah,  perlu: ['lastik_rangka'], dedah: 'pop' },
+  { nama: 'Main Getah',    fn: mainGetah,    perlu: ['gelang_getah'],  dedah: 'pop', selepas: bingkaiGelang },
+  { nama: 'Zero Point',    fn: zeroPoint,    perlu: ['murid_sedia', 'murid_lompat'], dedah: 'pop' },
+  { nama: 'Batu Seremban', fn: batuSeremban, perlu: ['batu_seremban'], dedah: 'balik' },
+];
+
+/* ---- Cabutan ---- */
+async function cabut() {
+  const pool = bakiPool(); if (sedangPutar || !pool.length) return;
+  sedangPutar = true; kemasKini(); $('tidakHadir').classList.remove('nampak');
+  $('keputusan').classList.remove('nampak', 'pop', 'balik'); $('sedia').style.display = 'none';
+  pentas.innerHTML = ''; gelangBingkai = null; sasaranId = null; statusGelang();
+  const menang = pool[rawak(pool.length)];                         // logik rawak sedia ada, sebelum animasi
+  const a = ANIMASI[pemenang.length % ANIMASI.length];            // bergilir mengikut bilangan cabutan
+  const D = $('tengah').clientWidth;
+  try {
+    await Promise.race([sediaGambar, jeda(1500)]);
+    const boleh = a.perlu.every(n => gambarOK[n]) && !matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (boleh) await Promise.race([a.fn(D), jeda(4500)]); else await jeda(300);
+  } catch (e) { console.error(e); }
+  pemenang.push({ id: menang.id, nama: menang.nama, tempat: menang.tempat }); simpan();
+  sasaranId = menang.id;
+  if (a.selepas && gelangBingkai) pentas.querySelectorAll(':scope > :not(img)').forEach(e => e.remove()); else pentas.innerHTML = '';
+  dedah(menang, a.dedah);
+  main('ding'); konfeti();                                         // tepat ketika nama besar muncul
+  sedangPutar = false; kemasKini(); $('tidakHadir').classList.add('nampak');
+  if (a.selepas && gelangBingkai) a.selepas(D).catch(() => {}).finally(() => { if (!sedangPutar) pentas.innerHTML = ''; });
+}
+function dedah(m, gaya) {
+  const k = $('keputusan'); $('namaBesar').textContent = m.nama; $('tempatBesar').textContent = m.tempat || '';
+  k.classList.remove('pop', 'balik'); void k.offsetWidth; k.classList.add('nampak', gaya || 'pop');
+  muatNamaBesar();
+}
+/* Saiz nama besar: perkataan terpanjang mesti muat sebaris (nama turun baris hanya di antara perkataan) dan tinggi muat dalam bulatan */
+function muatNamaBesar() {
+  const el = $('namaBesar'), dc = $('tengah').clientWidth; if (!dc) return;
+  const lebar = el.clientWidth || dc * .76, maksH = dc * .44;
+  const perkataan = el.textContent.split(/\s+/).filter(Boolean);
+  const terpanjang = (saiz) => { ukur.font = `400 ${saiz}px Butterpop, sans-serif`; return Math.max(0, ...perkataan.map(w => ukur.measureText(w).width)); };
+  let saiz = dc * .17;
+  while (saiz > 14 && terpanjang(saiz) > lebar * .97) saiz -= Math.max(1, saiz * .04);
+  el.style.overflowWrap = saiz <= 14 ? 'anywhere' : 'normal';      // hanya untuk perkataan luar biasa panjang
+  el.style.fontSize = saiz + 'px';
+  while (saiz > 14 && (el.scrollHeight > maksH || el.scrollWidth > el.clientWidth + 1)) { saiz -= Math.max(1, saiz * .05); el.style.fontSize = saiz + 'px'; }
+}
+function tidakHadir() {
+  const akhir = [...pemenang].reverse().find(p => !p.batal); if (!akhir || sedangPutar) return;
+  akhir.batal = true; simpan(); kemasKini(); cabut();
+}
+
+/* ---- Contoh untuk latihan ---- */
+function contoh(n) {
+  const nama = ['AHMAD BIN ALI','SITI AMINAH BINTI YUSOF','JOHNNY GINDUNG','MARY ANN JOSEPH','MOHD FAIZAL BIN HASSAN','NUR AISYAH BINTI RAHMAN',
+    'BENEDICT LAJIUS','JOSEPHINE MOJIUN','ROSNAH BINTI SULAIMAN','FELIX AMBROSE','ANGELINA MARCUS SINDING','HAZWAN BIN ISMAIL',
+    'CHRISTINA JUNIUS','ZULKIFLI BIN OMAR','VERONICA PAULUS','ALEXANDER GABRIEL MOJUNTIN ANAK KUNSAI','NORAINI BINTI ABDULLAH','PETRUS SAIMIN'];
+  const tempat = ['KG. LOTONG','KG. BOGIAN','KG. BATU 10','KG. ROMPON','TAMBUNAN','KPDNK KENINGAU','HOSPITAL TAMBUNAN','NADI'];
+  const out = [['NAMA', 'TEMPAT']]; const jumlah = n > 1 ? n : nama.length;
+  for (let i = 0; i < jumlah; i++) out.push([i < nama.length ? nama[i] : nama[i % nama.length] + ' ' + (Math.floor(i / nama.length) + 1), tempat[i % tempat.length]]);
+  return out;
+}
+
+/* ---- Butang & kekunci ---- */
+$('cabut').onclick = cabut;
+$('tidakHadir').onclick = tidakHadir;
+$('muatSemula').onclick = () => { if (!sedangPutar) muat(); };
+$('failCsv').onchange = async (e) => { const f = e.target.files[0]; if (!f || sedangPutar) return;
+  peserta = bina(bacaCsv(await f.text())); status('Senarai daripada fail: ' + f.name); susunBulatan(); kemasKini(); e.target.value = ''; };
+$('bunyi').onclick = () => { bunyiOn = !bunyiOn; $('bunyi').textContent = bunyiOn ? '🔊 Bunyi' : '🔇 Senyap'; $('bunyi').setAttribute('aria-pressed', bunyiOn); };
+const penuh = () => document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen?.();
+$('skrinPenuh').onclick = penuh;
+$('setSemula').onclick = () => { if (sedangPutar) return;
+  if (confirm('Kosongkan senarai pemenang? Semua nama akan kembali ke dalam cabutan.')) { pemenang = []; sasaranId = null; simpan(); pentas.innerHTML = '';
+    $('keputusan').classList.remove('nampak'); $('sedia').style.display = ''; kemasKini(); $('tidakHadir').classList.remove('nampak'); } };
+addEventListener('keydown', (e) => {
+  if (e.target.tagName === 'INPUT') return;
+  if (e.code === 'Space' || e.code === 'Enter') { e.preventDefault(); if (!e.repeat) cabut(); }
+  else if (e.key === 'f' || e.key === 'F') penuh();
+});
+new ResizeObserver(() => { susunBulatan(); if ($('keputusan').classList.contains('nampak')) muatNamaBesar(); }).observe($('arena'));
+$('putar').style.animationDuration = TEMPOH_PUSINGAN + 's';
+
+(document.fonts && document.fonts.load ? document.fonts.load('700 100px Quicksand').catch(() => {}) : Promise.resolve())
+  .then(() => { susunBulatan(); kemasKini(); muat(); });
+</script>
+</body>
+</html>
